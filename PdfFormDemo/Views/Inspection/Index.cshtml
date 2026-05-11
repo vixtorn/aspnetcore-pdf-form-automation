@@ -1,0 +1,82 @@
+﻿@model PdfFormDemo.Models.InspectionFormModel
+
+<div class="container mt-5">
+
+    <h2>Kontrol Formu</h2>
+
+    <form method="post">
+
+        <div class="mb-3">
+            <label class="form-label">
+                Cihaz Adı
+            </label>
+
+            <input type="text"
+                   name="DeviceName"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                Sıcaklık
+            </label>
+
+            <input type="text"
+                   name="Temperature"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                Sonuç
+            </label>
+
+            <input type="text"
+                   name="Result"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Kullanıma Uygun mu?
+            </label>
+
+            <div class="form-check">
+
+                <input class="form-check-input"
+                       type="radio"
+                       asp-for="IsUsable"
+                       value="Evet" />
+
+                <label class="form-check-label">
+                    Evet
+                </label>
+
+            </div>
+
+            <div class="form-check">
+
+                <input class="form-check-input"
+                       type="radio"
+                       asp-for="IsUsable"
+                       value="Hayır" />
+
+                <label class="form-check-label">
+                    Hayır
+                </label>
+
+            </div>
+
+        </div>
+
+        <button type="submit"
+                class="btn btn-primary">
+
+            PDF Oluştur
+
+        </button>
+
+    </form>
+
+</div>
