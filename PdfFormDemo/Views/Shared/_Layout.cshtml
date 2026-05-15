@@ -1,5 +1,23 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@{
+    var menuItems = Enumerable.Range(1, 20)
+        .Select(i => new
+        {
+            Title = $"Lorem Ipsum {i}",
+            Controller = "Home",
+            Action = "Index",
+            IsActive = false
+        })
+        .Append(new
+        {
+            Title = "PDF Form Onayı",
+            Controller = "Inspection",
+            Action = "Index",
+            IsActive = string.Equals(ViewContext.RouteData.Values["controller"]?.ToString(), "Inspection", StringComparison.OrdinalIgnoreCase)
+        })
+        .ToList();
+}
+<!DOCTYPE html>
+<html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,38 +28,66 @@
     <link rel="stylesheet" href="~/PdfFormDemo.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PdfFormDemo</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+    <div class="portal-shell">
+        <aside class="aside aside-light aside-hoverable">
+            <div class="aside-logo">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="brand-link" aria-label="Atmaca Portal">
+                    <span class="brand-text">ATMACA</span>
+                </a>
+
+                <button class="aside-toggle" type="button" aria-label="Menüyü daralt">
+                    <span aria-hidden="true">‹‹</span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+            <nav class="aside-menu flex-column-fluid" aria-label="Portal menüsü">
+                <ul class="menu-nav">
+                    @foreach (var item in menuItems)
+                    {
+                        <li class="menu-item @(item.IsActive ? "menu-item-active" : "")">
+                            <a class="menu-anchor" asp-area="" asp-controller="@item.Controller" asp-action="@item.Action">
+                                <span class="menu-link">
+                                    <span class="menu-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" focusable="false">
+                                            <path d="M5 4h10.5L19 7.5V20H5V4Zm9 1.8V9h3.2L14 5.8ZM7 11h10v1.6H7V11Zm0 4h10v1.6H7V15Z" />
+                                        </svg>
+                                    </span>
+                                    <span class="menu-title">@item.Title</span>
+                                    <span class="menu-arrow" aria-hidden="true">›</span>
+                                </span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="portal-main">
+            <header class="portal-header">
+                <div class="header-spacer"></div>
+
+                <div class="header-actions" aria-label="Üst menü aksiyonları">
+                    <button type="button" class="header-icon" aria-label="Gece modu">
+                        <span aria-hidden="true">🌙</span>
+                    </button>
+                    <button type="button" class="header-icon" aria-label="Kısayollar">
+                        <span aria-hidden="true">◆</span>
+                    </button>
+                    <button type="button" class="header-icon grid-icon" aria-label="Uygulamalar">
+                        <span></span><span></span><span></span><span></span>
+                    </button>
+                    <button type="button" class="user-avatar" aria-label="Kullanıcı profili">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+            </header>
+
+            <main role="main" class="portal-content">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - PdfFormDemo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

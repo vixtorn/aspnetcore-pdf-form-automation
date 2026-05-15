@@ -1,82 +1,82 @@
 ﻿@model PdfFormDemo.Models.InspectionFormModel
 
-<div class="container mt-5">
+@{
+    ViewData["Title"] = "PDF Form Onayı";
+}
 
-    <h2>Kontrol Formu</h2>
+<section class="portal-card">
+    <h2 class="portal-card-title">PDF Form Onayı</h2>
 
-    <form method="post">
+    <form method="post" autocomplete="off">
+        <div class="mb-4">
+            <label class="form-label">Çalışan</label>
 
-        <div class="mb-3">
-            <label class="form-label">
-                Cihaz Adı
-            </label>
+            <select asp-for="SelectedEmployeeId"
+                    asp-items="ViewBag.Employees"
+                    class="form-select">
+                <option value="">Çalışan seçiniz</option>
+            </select>
 
-            <input type="text"
-                   name="DeviceName"
-                   class="form-control" />
+            <span asp-validation-for="SelectedEmployeeId"
+                  class="text-danger small"></span>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">
-                Sıcaklık
-            </label>
-
-            <input type="text"
-                   name="Temperature"
-                   class="form-control" />
+        <div class="mb-4">
+            <label asp-for="DeviceName" class="form-label">Cihaz Adı</label>
+            <input asp-for="DeviceName"
+                   type="text"
+                   class="form-control"
+                   placeholder="Cihaz adını giriniz" />
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">
-                Sonuç
-            </label>
-
-            <input type="text"
-                   name="Result"
-                   class="form-control" />
+        <div class="mb-4">
+            <label asp-for="Temperature" class="form-label">Sıcaklık</label>
+            <input asp-for="Temperature"
+                   type="text"
+                   class="form-control"
+                   placeholder="Örn: 25°C" />
         </div>
 
-        <div class="mb-3">
+        <div class="mb-4">
+            <label asp-for="Result" class="form-label">Sonuç</label>
+            <input asp-for="Result"
+                   type="text"
+                   class="form-control"
+                   placeholder="Kontrol sonucunu giriniz" />
+        </div>
 
-            <label class="form-label">
-                Kullanıma Uygun mu?
-            </label>
+        <div class="mb-4">
+            <label class="form-label d-block">Kullanıma Uygun mu?</label>
 
-            <div class="form-check">
+            <div class="d-flex gap-4 flex-wrap">
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           asp-for="IsUsable"
+                           value="Evet" />
 
-                <input class="form-check-input"
-                       type="radio"
-                       asp-for="IsUsable"
-                       value="Evet" />
+                    <label class="form-check-label">Evet</label>
+                </div>
 
-                <label class="form-check-label">
-                    Evet
-                </label>
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           asp-for="IsUsable"
+                           value="Hayır" />
 
+                    <label class="form-check-label">Hayır</label>
+                </div>
             </div>
-
-            <div class="form-check">
-
-                <input class="form-check-input"
-                       type="radio"
-                       asp-for="IsUsable"
-                       value="Hayır" />
-
-                <label class="form-check-label">
-                    Hayır
-                </label>
-
-            </div>
-
         </div>
 
-        <button type="submit"
-                class="btn btn-primary">
+        <div class="d-flex gap-3 flex-wrap">
+            <button type="submit" class="btn btn-primary">
+                PDF Oluştur
+            </button>
 
-            PDF Oluştur
-
-        </button>
-
+            <a class="btn-light-portal" asp-controller="Home" asp-action="Index">
+                Vazgeç
+            </a>
+        </div>
     </form>
-
-</div>
+</section>

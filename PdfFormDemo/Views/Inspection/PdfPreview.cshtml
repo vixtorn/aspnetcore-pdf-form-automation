@@ -2,16 +2,17 @@
     ViewData["Title"] = "PDF Önizleme";
 }
 
-<div class="container mt-5">
+<section class="portal-card portal-card-wide">
+    <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap mb-4">
+        <h2 class="portal-card-title mb-0">Oluşturulan PDF</h2>
 
-    <h2 class="mb-4">
-        Oluşturulan PDF
-    </h2>
+        <a class="btn-light-portal" asp-controller="Inspection" asp-action="Index">
+            Yeni Form Oluştur
+        </a>
+    </div>
 
-    <iframe src="/output.pdf"
-            width="100%"
-            height="800px"
-            style="border:1px solid #ccc;">
+    <iframe src="/output.pdf?v=@DateTime.Now.Ticks"
+            class="pdf-preview-frame"
+            title="Oluşturulan PDF önizlemesi">
     </iframe>
-
-</div>
+</section>

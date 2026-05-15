@@ -1,6 +1,10 @@
-﻿using PdfFormDemo.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+
+using PdfFormDemo.Data;
 using PdfFormDemo.Models;
+using PdfFormDemo.Services;
 
 namespace PdfFormDemo.Controllers
 {
@@ -8,25 +12,73 @@ namespace PdfFormDemo.Controllers
     {
         private readonly PdfService _pdfService;
 
-        public InspectionController()
+        private readonly ApplicationDbContext _context;
+
+        public InspectionController(
+            PdfService pdfService,
+            ApplicationDbContext context)
         {
-            _pdfService = new PdfService();
+            _pdfService = pdfService;
+
+            _context = context;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            await LoadEmployeesDropdownAsync();
+
             return View();
         }
 
         [HttpPost]
-        public IActionResult Index(
-        InspectionFormModel model
-        )
+        public async Task<IActionResult> Index(
+            InspectionFormModel model)
         {
-            _pdfService.GeneratePdf(model);
+            var selectedEmployee =
+                await _context.Employees
+                .AsNoTracking()
+                .Where(e => e.Id == model.SelectedEmployeeId)
+                .Select(e => new
+                {
+                    e.Id,
+                    e.Name
+                })
+                .FirstOrDefaultAsync();
+
+            if (selectedEmployee == null)
+            {
+                ModelState.AddModelError(
+                    "",
+                    "Çalışan bulunamadı."
+                );
+
+                await LoadEmployeesDropdownAsync();
+
+                return View(model);
+            }
+
+            _pdfService.GeneratePdf(
+                model,
+                selectedEmployee.Id,
+                selectedEmployee.Name
+            );
 
             return View("PdfPreview");
+        }
+
+        private async Task LoadEmployeesDropdownAsync()
+        {
+            ViewBag.Employees =
+                await _context.Employees
+                .AsNoTracking()
+                .OrderBy(e => e.Name)
+                .Select(e => new SelectListItem
+                {
+                    Value = e.Id.ToString(),
+                    Text = e.Name
+                })
+                .ToListAsync();
         }
     }
 }

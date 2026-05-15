@@ -1,19 +1,78 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Portal";
 }
 
-<div class="text-center mt-5">
+<div class="welcome-panel">
+    <section class="portal-card portal-card-wide">
+        <h2 class="portal-card-title">
+            Hoşgeldiniz, EMİR DUMAN
+        </h2>
 
-    <h1 class="display-4 mb-4">
-        Welcome
-    </h1>
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="d-flex align-items-center gap-2 text-muted fw-semibold">
+                    <span class="badge rounded-pill bg-light text-secondary">›</span>
+                    Bu ay kullanılan yıllık izin <span class="badge bg-primary">0</span> Gün
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex align-items-center gap-2 text-muted fw-semibold">
+                    <span class="badge rounded-pill bg-light text-secondary">›</span>
+                    Bu yıl kullanılan toplam izin <span class="badge bg-primary">0</span> Gün
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex align-items-center gap-2 text-muted fw-semibold">
+                    <span class="badge rounded-pill bg-light text-secondary">›</span>
+                    Bu ay kullanılan toplam saatlik izin <span class="badge bg-primary">0:00</span> Saat
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex align-items-center gap-2 text-muted fw-semibold">
+                    <span class="badge rounded-pill bg-light text-secondary">›</span>
+                    Kalan toplam yıllık izin <span class="badge bg-primary">0</span> Gün
+                </div>
+            </div>
+        </div>
 
-    <a asp-controller="Inspection"
-           asp-action="Index"
-           class="btn btn-primary btn-lg">
+        <div class="d-flex gap-3 flex-wrap">
+            <a class="btn-light-portal" asp-controller="Home" asp-action="Index">İzinlerim</a>
+            <a class="btn btn-primary" asp-controller="Inspection" asp-action="Index">PDF Form Onayı</a>
+        </div>
+    </section>
 
-        Form Doldur
+    <section class="portal-card portal-card-wide">
+        <h2 class="portal-card-title">Sosyal Medya Hesapları</h2>
 
-    </a>
-
+        <div class="social-list">
+            <div class="social-row">
+                <span class="social-circle">f</span>
+                <div>
+                    <span class="social-title">Sunny Türkiye</span>
+                    <span class="social-subtitle">Facebook</span>
+                </div>
+            </div>
+            <div class="social-row">
+                <span class="social-circle">x</span>
+                <div>
+                    <span class="social-title">Sunny Türkiye</span>
+                    <span class="social-subtitle">Twitter</span>
+                </div>
+            </div>
+            <div class="social-row">
+                <span class="social-circle">in</span>
+                <div>
+                    <span class="social-title">Sunny Türkiye</span>
+                    <span class="social-subtitle">LinkedIn</span>
+                </div>
+            </div>
+            <div class="social-row">
+                <span class="social-circle">▶</span>
+                <div>
+                    <span class="social-title">Sunny</span>
+                    <span class="social-subtitle">Youtube</span>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>

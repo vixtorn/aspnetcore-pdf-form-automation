@@ -8,7 +8,10 @@ namespace PdfFormDemo.Services
 {
     public class PdfService
     {
-        public string GeneratePdf(InspectionFormModel model)
+        public string GeneratePdf(
+            InspectionFormModel model,
+            int employeeId,
+            string employeeName)
         {
             string templatePath =
                 "wwwroot/templates/inspection-template.pdf";
@@ -32,64 +35,59 @@ namespace PdfFormDemo.Services
                 new PdfCanvas(page);
 
             PdfFont font =
-            PdfFontFactory.CreateFont(
-            StandardFonts.HELVETICA
-            );
+                PdfFontFactory.CreateFont(
+                    StandardFonts.HELVETICA
+                );
+
+            float deviceNameX = 100;
+            float deviceNameY = 700;
+
+            float employeeIdX = deviceNameX + 250;
+            float employeeIdY = deviceNameY;
+
+            float employeeNameX = employeeIdX;
+            float employeeNameY = employeeIdY - 15;
 
             // DEVICE NAME
-            //Burada MoveText() modülü ile PDF üzerindeki konumu belirliyoruz. ShowText() modülü ile de PDF üzerine yazı yazıyoruz. 
-            //EndText() modülü ile de yazma işlemini sonlandırıyoruz. Bu işlemi her bir alan için tekrarlıyoruz. 
-            //EndText() modülünü kullanmazsak, PDF üzerine yazı yazma işlemi devam eder ve diğer alanlara da yazı yazılır. Bu nedenle her bir alan için EndText() modülünü kullanarak yazma işlemini sonlandırıyoruz.
             canvas.BeginText();
-
             canvas.SetFontAndSize(font, 12);
-
-            canvas.MoveText(100, 700);
-
+            canvas.MoveText(deviceNameX, deviceNameY);
             canvas.ShowText(model.DeviceName);
-
             canvas.EndText();
 
+            // EMPLOYEE ID
+            canvas.BeginText();
+            canvas.SetFontAndSize(font, 12);
+            canvas.MoveText(employeeIdX, employeeIdY);
+            canvas.ShowText(employeeId.ToString());
+            canvas.EndText();
 
+            // EMPLOYEE NAME
+            canvas.BeginText();
+            canvas.SetFontAndSize(font, 12);
+            canvas.MoveText(employeeNameX, employeeNameY);
+            canvas.ShowText(employeeName);
+            canvas.EndText();
 
             // TEMPERATURE
-
             canvas.BeginText();
-
             canvas.SetFontAndSize(font, 12);
-
             canvas.MoveText(100, 685);
-
-            canvas.ShowText(model.Temperature.ToString());
-
+            canvas.ShowText(model.Temperature);
             canvas.EndText();
-
-
 
             // RESULT
-
             canvas.BeginText();
-
             canvas.SetFontAndSize(font, 12);
-
             canvas.MoveText(100, 670);
-
             canvas.ShowText(model.Result);
-
             canvas.EndText();
 
-
-
             // IS USABLE
-
             canvas.BeginText();
-
             canvas.SetFontAndSize(font, 12);
-
             canvas.MoveText(100, 655);
-
             canvas.ShowText(model.IsUsable);
-
             canvas.EndText();
 
             pdf.Close();
